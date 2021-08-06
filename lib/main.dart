@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'package:ntpc/NetworkResponse/loginresponse.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -17,7 +21,26 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  bool _isObscure = true;
+
+  Future<List<loginresponse>> _fetchDetailsData() async {
+    final url = 'https://aaplekarigar.com/bhagyoday/api/ind_festivals_details.php';
+    var data={
+      'LoginId': "jfjf",
+      'LoginPassword': "hfjf"
+
+    };
+    var response = await http.post(Uri.parse(url), body: json.encode(data));
+
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
+      return jsonResponse.map((job) => new loginresponse.fromJson(job)).toList();
+    } else {
+      throw Exception('Failed to load jobs from API');
+    }
+  }
+
+
+bool _isObscure = true;
   bool isChecked= false;
   @override
   Widget build(BuildContext context) {
@@ -190,7 +213,7 @@ class _LoginState extends State<Login> {
                   ),
                   InkWell(
                     onTap: (){
-                    //  Navigator.push(context,MaterialPageRoute(builder: (context)=>new Lo()));
+                      _fetchDetailsData();
                     },
                     child: Container(
                       height: 60.0,

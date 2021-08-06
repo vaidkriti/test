@@ -29,7 +29,7 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['table'] != null) {
-      table = new List<Table>();
+      table = <Table>[];
       json['table'].forEach((v) {
         table.add(new Table.fromJson(v));
       });
