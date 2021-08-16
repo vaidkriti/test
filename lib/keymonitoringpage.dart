@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'NetworkResponse/key_monitoring_data.dart';
+import 'networkcall/KeyMonitoringData.dart';
+
 class keyMonitoringPage extends StatefulWidget {
   const keyMonitoringPage({Key? key}) : super(key: key);
 
@@ -12,13 +15,15 @@ class _keyMonitoringPageState extends State<keyMonitoringPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
         automaticallyImplyLeading: false,
         centerTitle: true,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset("assets/logo_white.png",height: 50,),
+            Image.asset(
+              "assets/logo_white.png",
+              height: 50,
+            ),
             Text("Delhpi")
           ],
         ),
@@ -31,7 +36,6 @@ class _keyMonitoringPageState extends State<keyMonitoringPage> {
           SizedBox(
             width: 10,
           ),
-
         ],
       ),
       body: SingleChildScrollView(
@@ -43,19 +47,23 @@ class _keyMonitoringPageState extends State<keyMonitoringPage> {
               height: 30,
             ),
             Container(
-              alignment: Alignment.center,
-                child: Text("Search By Fields",style: TextStyle(fontSize: 30),)),
+                alignment: Alignment.center,
+                child: Text(
+                  "Search By Fields",
+                  style: TextStyle(fontSize: 30),
+                )),
             SizedBox(
               height: 20,
             ),
             Container(
-              height: 40,
-              width: 50,
-              decoration: BoxDecoration(
-                color: Colors.blue
-              ),
+                height: 40,
+                width: 50,
+                decoration: BoxDecoration(color: Colors.blue),
                 alignment: Alignment.center,
-                child: Icon(Icons.drag_handle_sharp,size: 40,)),
+                child: Icon(
+                  Icons.drag_handle_sharp,
+                  size: 40,
+                )),
             SizedBox(
               height: 20,
             ),
@@ -67,23 +75,26 @@ class _keyMonitoringPageState extends State<keyMonitoringPage> {
                 borderRadius: BorderRadius.circular(12.0),
               ),
               child: Row(
-
                 children: [
                   SizedBox(
                     width: 30,
                   ),
                   Container(
                       alignment: Alignment.centerLeft,
-                      child: Text("Key Position Monitoring",style: TextStyle(fontSize: 30),)),
+                      child: Text(
+                        "Key Position Monitoring",
+                        style: TextStyle(fontSize: 30),
+                      )),
                   SizedBox(
                     width: 600,
                   ),
                   Container(
                     alignment: Alignment.centerRight,
-                    child: Text("Key Position Projection",style: TextStyle(fontSize: 30),),
-                    decoration: BoxDecoration(
-                      color: Colors.green
+                    child: Text(
+                      "Key Position Projection",
+                      style: TextStyle(fontSize: 30),
                     ),
+                    decoration: BoxDecoration(color: Colors.green),
                   )
                 ],
               ),
@@ -120,11 +131,17 @@ class _keyMonitoringPageState extends State<keyMonitoringPage> {
                 SizedBox(
                   width: 270,
                 ),
-                Text("Data Size",style: TextStyle(fontSize: 30),),
+                Text(
+                  "Data Size",
+                  style: TextStyle(fontSize: 30),
+                ),
                 SizedBox(
                   width: 15,
                 ),
-                Text("20",style: TextStyle(fontSize: 30),),
+                Text(
+                  "20",
+                  style: TextStyle(fontSize: 30),
+                ),
                 SizedBox(
                   width: 320,
                 ),
@@ -138,12 +155,8 @@ class _keyMonitoringPageState extends State<keyMonitoringPage> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: TextFormField(
-
-
                       style: TextStyle(
-                          fontSize: 22.0,
-                          height: 1,
-                          color: Colors.black),
+                          fontSize: 22.0, height: 1, color: Colors.black),
                       decoration: InputDecoration(
                         hintText: "Search Bar",
                         hintStyle: TextStyle(fontSize: 22.0),
@@ -155,44 +168,90 @@ class _keyMonitoringPageState extends State<keyMonitoringPage> {
                   ),
                 ),
                 Icon(Icons.search)
-
               ],
             ),
             SizedBox(
               height: 20,
             ),
-            Table(
+            FutureBuilder<KeyMonitoringData>(
+              future: fetchKeyMonitoring(),
+              builder: (context, snapshot) {
+                KeyMonitoringData? jsonresponse = snapshot.data;
+                if (snapshot.hasData) {
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Column(
+                      children: [
+                        DataTable(
 
-              defaultColumnWidth: FixedColumnWidth(160.0),
-              border: TableBorder.all(
-                color: Colors.black,
-                style: BorderStyle.solid,
-                width: 2
-              ),
-                children: [
-            TableRow(
+                            columnSpacing:
+                                MediaQuery.of(context).size.width / 10,
+                            headingRowColor:   MaterialStateColor.resolveWith((states) => Colors.blue),
+                            dividerThickness: 2.0,
+                            decoration: BoxDecoration(
 
-                children: [
-            Column(children:[Text('View', style: TextStyle(fontSize: 20.0))]),
-          Column(children:[Text('Name', style: TextStyle(fontSize: 20.0))]),
-          Column(children:[Text('Type', style: TextStyle(fontSize: 20.0))]),
-              Column(children:[Text('Project', style: TextStyle(fontSize: 20.0))]),
-              Column(children:[Text('Department', style: TextStyle(fontSize: 20.0))]),
-              Column(children:[Text('Sanctioned', style: TextStyle(fontSize: 20.0))]),
-              Column(children:[Text('Positioned', style: TextStyle(fontSize: 20.0))]),
-              Column(children:[Text('Vaccant', style: TextStyle(fontSize: 20.0))]),
+                              border: Border.all(color: Colors.black)
+                            ),
+                            columns: [
+                              DataColumn(label: Text("View")),
+                              DataColumn(label: Text("Name")),
+                              DataColumn(label: Text("Type")),
+                              DataColumn(label: Text("Project")),
+                              DataColumn(label: Text("Department")),
+                              DataColumn(label: Text("Sanctioned")),
+                              DataColumn(label: Text("Positioned")),
+                              DataColumn(label: Text("Vacant")),
+                            ],
+                            rows: jsonresponse!.data!
+                                .map(
+                                  (index) => DataRow(cells: [
+                                    DataCell(Container(
 
-          ]),
-    ]),
+                                      child: Text("View"),
 
+                                    )),
+                                    DataCell(Container(
+                                      child: Text(index.title.toString()),
+                                    )),
+                                    DataCell(Container(
+                                      child:
+                                          Text(index.positionType.toString()),
+                                    )),
+                                    DataCell(Container(
+                                      child: Text(index.project.toString()),
+                                    )),
+                                    DataCell(Container(
+                                      child:
+                                          Text(index.departmentName.toString()),
+                                    )),
+                                    DataCell(Container(
+                                      child: Text(
+                                          index.totalSanctioned.toString()),
+                                    )),
+                                    DataCell(Container(
+                                      child: Text(
+                                          index.totalPositioned.toString()),
+                                    )),
+                                    DataCell(Container(
+                                      child: Text(jsonresponse.totalVacantOneM.toString()),
+                                    )),
+                                  ]),
+                                )
+                                .toList())
+                      ],
+                    ),
+                  );
+                } else {
+                  return Center(child: CircularProgressIndicator());
+                }
+              },
+            )
           ],
-
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {  },
-        child:
-             Image.asset("assets/graph.png"),
+        onPressed: () {},
+        child: Image.asset("assets/graph.png"),
       ),
     );
   }
