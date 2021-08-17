@@ -23,12 +23,56 @@ class _HomePageState extends State<HomePage> {
 
         children: [
 
-          Image.asset("assets/toolbar_back_2.png",width: MediaQuery.of(context).size.width,),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+           Stack(
+             children: [
+               Image.asset("assets/toolbar_back_2.png",width: MediaQuery.of(context).size.width,),
+               Positioned(
+                 top: 20,
+                 child: Container(
+                   height: 50,
+                     alignment: Alignment.center,
+                     child: Image.asset("assets/logo_white.png",width: MediaQuery.of(context).size.width,),),
+               ),
+               Positioned(
+                 top: 30,
+                 right: 100,
+                 child: Container(
+                    height: 40,
+                     child: Image.asset("assets/profile_one.png")) ,
+               ),
+               Positioned(
+                 top: 30,
+                 right: 40,
+                 child: Container(
+                     height: 40,
+                     child: Image.asset("assets/change.png")) ,
+               )
 
+             ],
+           ),
+           Divider(
+             thickness:1.0,
+             color: Colors.black,
+           ),
+          Divider(
+            thickness:1.0,
+            color: Colors.black,
+          ),
+           Container(
+             margin: EdgeInsets.only(left: 12.0),
+               alignment: Alignment.centerLeft,
+               child: Text("Modules",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 40.0,color:Colors.grey),)),
+          Divider(
+            thickness:1.0,
+            color: Colors.black,
+          ),
+           Column(
+             crossAxisAlignment: CrossAxisAlignment.center,
+             mainAxisAlignment: MainAxisAlignment.center,
+             children: [
+               SizedBox(
+                 height: MediaQuery.of(context).size.height/10,
+               ),
               Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -36,8 +80,8 @@ class _HomePageState extends State<HomePage> {
                     InkWell(
 
                       child: Container(
-                        height: 150,
-                        width: 150,
+                        height: 170,
+                        width: 170,
                         child: Image.asset("assets/key.jpg"),
                       ),
                       onTap: (){
@@ -50,8 +94,8 @@ class _HomePageState extends State<HomePage> {
                     ),
                     InkWell(
                       child: Container(
-                        height: 150,
-                          width: 150,
+                        height: 170,
+                        width: 170,
                         child: Image.asset("assets/spv.png"),
                       ),
                     )
@@ -67,8 +111,8 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       InkWell(
                         child: Container(
-                          height: 150,
-                          width: 150,
+                          height: 170,
+                          width: 170,
                           child: Image.asset("assets/emarket.png"),
                         ),
                       ),
@@ -77,8 +121,8 @@ class _HomePageState extends State<HomePage> {
                       ),
                       InkWell(
                         child: Container(
-                          height: 150,
-                          width: 150,
+                          height: 170,
+                          width: 170,
                           child: Image.asset("assets/open.png"),
                         ),
                       )
@@ -87,6 +131,8 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
+
+
         ],
       ),
     );
